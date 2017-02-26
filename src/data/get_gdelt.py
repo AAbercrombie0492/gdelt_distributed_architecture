@@ -2,6 +2,8 @@
 '''
 Sript to ingest historical gdelt data and save to s3.
 '''
+# pickle.dump(gkg_columns, open('~/gdelt_distributed_architecture/data/interim/gkg_columns.pkl', 'wb'))
+
 
 # Import Dependencies
 
