@@ -1,3 +1,4 @@
+#!/usr/bin/python
 '''
 Sript to ingest historical gdelt data and save to s3.
 '''
