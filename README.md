@@ -4,7 +4,8 @@
 
 About
 ------------
-![gdelt video](https://www.youtube.com/embed/GpCarC_I3Ao?list=PLlRVXVT7h9_gCGCOl_bNYHA7FXbSOIVbs)
+
+[![gdelt video](http://i.imgur.com/Ot5DWAW.png)](https://www.youtube.com/embed/GpCarC_I3Ao?list=PLlRVXVT7h9_gCGCOl_bNYHA7FXbSOIVbs "gdelt intro")
 
 ### Events: 
 The GDELT Event Database records over **300 categories of physical activities around the world**, from riots and protests to peace appeals and diplomatic exchanges, georeferenced to the city or mountaintop, across the entire planet dating back to January 1, 1979 and updated every 15 minutes.
