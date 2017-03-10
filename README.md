@@ -1,7 +1,27 @@
-Data_Engineering_Final_Project
+# GDELT: Global Data on Events, Location, and Tone
+## Data Engineering Project for GalanvanizeU
 ==============================
 
-Architecture for collecting, processing, storing, and managing GDELT data.
+About
+------------
+
+### Events: 
+The GDELT Event Database records over **300 categories of physical activities around the world**, from riots and protests to peace appeals and diplomatic exchanges, georeferenced to the city or mountaintop, across the entire planet dating back to January 1, 1979 and updated every 15 minutes.
+
+**Essentially it takes a sentence like _"The United States criticized Russia yesterday for deploying its troops in Crimea, in which a recent clash with its soldiers left 10 civilians injured"_** ...
+
+and transforms this blurb of unstructured text into three structured database entries, recording **US CRITICIZES RUSSIA, RUSSIA TROOP-DEPLOY UKRAINE (CRIMEA), and RUSSIA MATERIAL-CONFLICT CIVILIANS (CRIMEA).**
+
+Nearly **60 attributes are captured for each event**, including the approximate location of the action and those involved. This translates the textual descriptions of world events captured in the news media into codified entries in a grand "global spreadsheet."
+
+### Global Knowledge Graph:
+Much of the true insight captured in the world's news media lies not in what it says, but the context of how it says it. The GDELT Global Knowledge Graph **(GKG) compiles a list of every person, organization, company, location and several million themes and thousands of emotions from every news report**, using some of the most sophisticated named entity and geocoding algorithms in existance, designed specifically for the noisy and ungrammatical world that is the world's news media.
+
+The resulting network diagram constructs a graph over the entire world, **encoding not only what's happening, but what its context is, who's involved, and how the world is feeling about it, updated every 15 minutes.**
+
+Current Architecture
+------------
+!['gdelt_architecture'](./notebooks/images/gdelt_architecture.png)
 
 Project Organization
 ------------
