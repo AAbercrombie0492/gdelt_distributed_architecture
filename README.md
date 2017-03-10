@@ -4,6 +4,7 @@
 
 About
 ------------
+![gdelt video](https://www.youtube.com/embed/GpCarC_I3Ao?list=PLlRVXVT7h9_gCGCOl_bNYHA7FXbSOIVbs)
 
 ### Events: 
 The GDELT Event Database records over **300 categories of physical activities around the world**, from riots and protests to peace appeals and diplomatic exchanges, georeferenced to the city or mountaintop, across the entire planet dating back to January 1, 1979 and updated every 15 minutes.
@@ -24,7 +25,68 @@ Current Architecture
 
 !['gdelt_architecture_actual'](./notebooks/images/gdelt_architecture_actual.png)
 
+Proposed Future Architecture
+------------
+
 !['gdelt_architecture_proposed'](./notebooks/images/gdelt_architecture.png)
+
+Rationale of Architecture
+------------
+### Why Redshift, Cassandra, Neo4j?
+- **Redshift is a distributed, scalable, relational database that integrates really nicely with Spark.**
+- Cassandra is a distributed NOSQL database that is column orientd. GDELT is a dataset that is begging to be integrated with other datasources. Cassandra would be good for adding attributes and metadata to subsets of event/records.
+- Neo4j is a graph database. It would be helpful for updating pagerank and edge links.
+
+How does my system have this property?
+How does my system fall short and how could it be improved?
+
+### Robustness and Fault Tolerance
+
+- **Logs**
+
+- My system hinges on two EC2 instances, and an EMR cluster. I may look into using Elastic Beanstalk to deploy fresh EC2 instances in the event that one fails. 
+
+### Low latency reads and updates
+
+- ** Apache Parquet, EMR, Redshift **
+- **Dev ops techniques to enforce environment variables, ship and sync scripts to virtual machines.**
+
+- My system does not consider how to lower latency reads between my flask app and my distributed data stores. However, I will serialize each CSV as an Apache Parquet file which will make data processing in Spark faster. 
+
+
+### Scalability
+
+- ** EMR and Redshift are easily scalable.**
+
+- Again, I may need to look into Elastic Beanstalk to enable automated scaling for other components of the pipeline such as standalone EC2s.
+
+### Genearlization
+
+- ** All file states (raw, interim, processed) stored in S3 **
+- I hope to use Airflow to coordinate my Spark DAGs. This would make it easier to do future projects that entail prediction and machine learning. It would be nice to enable queries in the web app that trigger a Spark job that returns an answer. Elastic Search may be worth investigating.
+
+### Extensibility
+
+- **Saving my raw files onto S3 and extensive modularization of Spark code makes this system somewhat extensible.**
+- Work on Makefiles and automating environment setup
+
+### Ad Hoc Queries
+
+- ** Need to login to Spark EMR to do ad-hoc processing. Some tables in Redshift for ad-hoc querying.**
+- Elastic Search combined with Spark would be a great way to perform efficient ad hoc queries.
+
+### Minimal Maintenance
+
+- **EMR and Redshift minimize maintenance.**
+- EC2 instances need continual maintenance. Could be improved with EBS
+
+### Debuggability
+
+- **Heavy use of logging module.**
+- Store all the logs on S3.
+- Airflow would help with debuggability.
+
+!['catharsis'](images/catharsis.png)
 
 Project Organization
 ------------
