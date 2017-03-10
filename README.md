@@ -87,7 +87,7 @@ How does my system fall short and how could it be improved?
 - Store all the logs on S3.
 - Airflow would help with debuggability.
 
-!['catharsis'](images/catharsis.png)
+!['catharsis'](./notebookds/images/catharsis.png)
 
 Setup
 ------------
