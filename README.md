@@ -1,55 +1,37 @@
 Data_Engineering_Final_Project
 ==============================
 
-Architecture for collecting, processing, storing, and managing Lbig data
+Architecture for collecting, processing, storing, and managing GDELT data.
 
 Project Organization
 ------------
 
     ├── LICENSE
-    ├── Makefile           <- Makefile with commands like `make data` or `make train`
     ├── README.md          <- The top-level README for developers using this project.
-    ├── data
+    ├── data               <- Bucket to hold data created by ./src/get_gdelt.py
     │   ├── external       <- Data from third party sources.
     │   ├── interim        <- Intermediate data that has been transformed.
     │   ├── processed      <- The final, canonical data sets for modeling.
     │   └── raw            <- The original, immutable data dump.
     │
-    ├── docs               <- A default Sphinx project; see sphinx-doc.org for details
-    │
-    ├── models             <- Trained and serialized models, model predictions, or model summaries
-    │
-    ├── notebooks          <- Jupyter notebooks. Naming convention is a number (for ordering),
-    │                         the creator's initials, and a short `-` delimited description, e.g.
-    │                         `1.0-jqp-initial-data-exploration`.
-    │
-    ├── references         <- Data dictionaries, manuals, and all other explanatory materials.
+    ├── notebooks          <- Jupyter notebooks. 
+    │   ├── GDELT_Architecture.ipynb <- overview of architecture and data demo.
     │
     ├── reports            <- Generated analysis as HTML, PDF, LaTeX, etc.
-    │   └── figures        <- Generated graphics and figures to be used in reporting
+    │   ├── example_report.html <- Example output of Spark analysis that sits on S3.
     │
     ├── requirements.txt   <- The requirements file for reproducing the analysis environment, e.g.
-    │                         generated with `pip freeze > requirements.txt`
+    │                         create with `pip freeze > requirements.txt`,  
+    |                         execute with "sudo `which pip` install -r requirements.txt"
     │
     ├── src                <- Source code for use in this project.
     │   ├── __init__.py    <- Makes src a Python module
+    |   ├── spinup_ec2.sh  <- Launches an rx.large EC2 instance.
+    |   ├── bootstrap_ec2.sh <- Install dependencies on EC2
     │   │
     │   ├── data           <- Scripts to download or generate data
-    │   │   └── make_dataset.py
-    │   │
-    │   ├── features       <- Scripts to turn raw data into features for modeling
-    │   │   └── build_features.py
-    │   │
-    │   ├── models         <- Scripts to train models and then use trained models to make
-    │   │   │                 predictions
-    │   │   ├── predict_model.py
-    │   │   └── train_model.py
-    │   │
-    │   └── visualization  <- Scripts to create exploratory and results oriented visualizations
-    │       └── visualize.py
-    │
-    └── tox.ini            <- tox file with settings for running tox; see tox.testrun.org
-
+    │   │   └── get_gdelt.py <- Requests most recent batch of gdelt data and saves to S3 as parquet. [AWS EC2]
+    │   │   └── gkg_cooccurences_pyspark.py <-Spark processing and output analysis to S3 and Redshift. [AWS EMR & Redshift]
 
 --------
 
