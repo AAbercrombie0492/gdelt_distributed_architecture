@@ -27,6 +27,8 @@ import pickle
 import fastparquet
 import datetime
 import dotenv
+import logging
+
 
 import boto3
 import boto
@@ -80,7 +82,7 @@ def download_zip_in_chunks(directory, url):
     '''
     # Unique name of file at the end of a URL
     base_file = os.path.basename(url)
-    print('\n\nDOWNOADING {}'.format(base_file))
+    print('\n\nDOWNLOADING {}'.format(base_file))
 
 
     # Path to save output
@@ -152,24 +154,29 @@ def make_gdelt_dataframe(csv_path):
     '''
 
     if re.search(r'gkg', csv_path):
-        columns = pickle.load(open(os.path.join(unzip_filepath,
-                                                'gkg_columns.pkl'
-                                                ),
-                                   'rb')
-                              )
+        columns = pickle.load(open('./gkg_columns.pkl', 'rb'))
+        # columns = pickle.load(open(os.path.join(unzip_filepath,
+        #                                         'gkg_columns.pkl'
+        #                                         ),
+        #                            'rb')
+        #                       )
     elif re.search(r'export', csv_path):
-        columns = pickle.load(open(os.path.join(unzip_filepath,
-                                                'events_columns.pkl'
-                                                ),
-                                   'rb')
-                              )
+        columns = pickle.load(open('./events_columns.pkl', 'rb'))
+
+        # columns = pickle.load(open(os.path.join(unzip_filepath,
+        #                                         'events_columns.pkl'
+        #                                         ),
+        #                            'rb')
+        #                       )
 
     elif re.search(r'mentions', csv_path):
-        columns = pickle.load(open(os.path.join(unzip_filepath,
-                                                'mentions_columns.pkl'
-                                                ),
-                                   'rb')
-                              )
+        columns = pickle.load(open('./mentions_columns.pkl', 'rb'))
+
+        # columns = pickle.load(open(os.path.join(unzip_filepath,
+        #                                         'mentions_columns.pkl'
+        #                                         ),
+        #                            'rb')
+        #                       )
     else:
         return 'NOT A VALID GDELT FILE'
 
@@ -211,7 +218,7 @@ def parquet_to_s3(parquet_path):
 def upload_file_to_s3(csv_path):
     print('\n\nUPLOADING {} TO S3'.format(csv_path))
 
-    s3 = boto.connect_s3()
+    #s3 = boto.connect_s3()
 
     if re.search(r'gkg', csv_path):
         bucket_name = 'gdelt-streaming'
@@ -255,6 +262,7 @@ def upload_file_to_s3(csv_path):
         key.set_contents_from_filename(csv_path)
 
         print('{} UPLOAD SUCCESSFUL'.format(key_name))
+        #time.sleep(300)
 
 
 
@@ -293,7 +301,18 @@ def delete_data_after_s3_upload():
 
 
 if __name__ == '__main__':
-    PROJ_ROOT = os.path.join(os.pardir, os.pardir)
+
+    log = logging.getLogger(__name__)
+    if len(log.handlers) == 0:
+        hdlr = logging.FileHandler('get_gdelt_data.log')
+        formatter = logging.Formatter('[%(asctime)s] p%(process)s {%(pathname)s:%(lineno)d} %(levelname)s - %(message)s','%m-%d %H:%M:%S')
+        hdlr.setFormatter(formatter)
+        log.addHandler(hdlr)
+        log.setLevel(logging.INFO)
+
+    log.info("started")
+    PROJ_ROOT = '.'
+    #PROJ_ROOT = os.path.join(os.pardir, os.pardir)
     download_filepath = os.path.join(PROJ_ROOT, 'data/raw')
     unzip_filepath = os.path.join(PROJ_ROOT, 'data/interim')
     parquet_filepath = os.path.join(PROJ_ROOT, 'data/parquet')
@@ -303,9 +322,9 @@ if __name__ == '__main__':
 
     AWS_ACCESS_KEY = os.environ.get('AWS_ACCESS_KEY')
     AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY')
-    host = os.environ.get('host')
+    host = 's3-us-west-2.amazonaws.com'
 
-    s3 = boto.connect_s3(host=host)
+    s3 = boto.connect_s3(AWS_ACCESS_KEY, AWS_SECRET_ACCESS_KEY)
 
     # url_list = get_list_of_urls()
     # gkg_url = 'http://data.gdeltproject.org/gdeltv2/20150220183000.gkg.csv.zip'
@@ -374,26 +393,13 @@ if __name__ == '__main__':
                            'MentionDocTranslationInfo', 'Extras']
 
 
-    pickle.dump(gkg_columns, open(os.path.join(unzip_filepath,
-                                               'gkg_columns.pkl'
-                                               ),
-                                  'wb'
-                                  )
-                )
+    pickle.dump(gkg_columns, open('./gkg_columns.pkl', 'wb'))
 
-    pickle.dump(events_columns, open(os.path.join(unzip_filepath,
-                                                  'events_columns.pkl'
-                                                  ),
-                                     'wb'
-                                     )
-                )
 
-    pickle.dump(mentions_columns, open(os.path.join(unzip_filepath,
-                                                    'mentions_columns.pkl'
-                                                    ),
-                                       'wb'
-                                       )
-                )
+    pickle.dump(events_columns, open('./events_columns.pkl', 'wb'))
+
+
+    pickle.dump(mentions_columns, open('./mentions_columns.pkl', 'wb'))
     #
     # gkg = make_gdelt_dataframe(os.path.join(PROJ_ROOT, 'data/raw/20150220183000.gkg.csv'))
     # events = make_gdelt_dataframe(os.path.join(PROJ_ROOT, 'data/raw/20150220184500.export.CSV'))
@@ -408,4 +414,9 @@ if __name__ == '__main__':
 
     #upload_file_to_s3(p,'gdelt-streaming')
 
-    get_most_recent_files_to_s3()
+    while True:
+        log.info("started")
+        print('BEGINNING UPLOAD ########### {}'.format(datetime.datetime.now()))
+        get_most_recent_files_to_s3()
+        print('SLEEPING')
+        time.sleep(60)
