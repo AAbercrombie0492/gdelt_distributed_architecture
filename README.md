@@ -118,7 +118,7 @@ _6. Execute Spark batch process.
 ```bash
     $ spark-submit PROJ_ROOT/src/gkg_cooccurences_pyspark.py
 ```
-_7. <p><small>Go <a target="_blank" href="https://s3-us-west-2.amazonaws.com/gdelt-streaming/gkg.html">Check out the report</a></small></p>
+_7. <p><small>Go <a target="_blank" href="https://s3-us-west-2.amazonaws.com/gdelt-streaming/gkg.html">check out the report</a></small></p>
 
 Project Organization
 ------------
