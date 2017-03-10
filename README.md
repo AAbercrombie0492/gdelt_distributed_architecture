@@ -61,7 +61,7 @@ How does my system fall short and how could it be improved?
 
 - Again, I may need to look into Elastic Beanstalk to enable automated scaling for other components of the pipeline such as standalone EC2s.
 
-### Genearlization
+### Genaralization
 
 - ** All file states (raw, interim, processed) stored in S3 **
 - I hope to use Airflow to coordinate my Spark DAGs. This would make it easier to do future projects that entail prediction and machine learning. It would be nice to enable queries in the web app that trigger a Spark job that returns an answer. Elastic Search may be worth investigating.
