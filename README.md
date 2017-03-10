@@ -21,7 +21,10 @@ The resulting network diagram constructs a graph over the entire world, **encodi
 
 Current Architecture
 ------------
-!['gdelt_architecture'](./notebooks/images/gdelt_architecture.png)
+
+!['gdelt_architecture_actual'](./notebooks/images/gdelt_architecture_actual.png)
+
+!['gdelt_architecture_proposed'](./notebooks/images/gdelt_architecture.png)
 
 Project Organization
 ------------
