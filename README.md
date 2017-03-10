@@ -92,33 +92,33 @@ How does my system fall short and how could it be improved?
 Setup
 ------------
 
-1. Spinup an EC2 instance for extracting data.
+_1. Spinup an EC2 instance for extracting data.
 ```bash
     $ python PROJ_ROOT/src/spinup_ec2.sh
 ```
-2. Install Dependencies:
+_2. Install Dependencies:
 ```bash
     $ bash PROJ_ROOT/src/bootstrap_ec2.sh
     $ sudo `which pip` install -r PROJ_ROOT/requirements.txt
     $ aws configure
 ```
-3. Setup Data Lake on AWS S3.
+_3. Setup Data Lake on AWS S3.
 
-4. Extract, Transform, Load:
+_4. Extract, Transform, Load:
 ```bash
     $ python PROJ_ROOT/src/get_gdelt.py
     $ python src/get_gdelt.py
 ```
 
-5. Spinup and setup EMR cluster on AWS.
+_5. Spinup and setup EMR cluster on AWS.
 ```bash 
     $ bash PROJ_ROOT/src/bootstrap_ec2.sh
 ```
-6. Execute Spark batch process.
+_6. Execute Spark batch process.
 ```bash
     $ spark-submit PROJ_ROOT/src/gkg_cooccurences_pyspark.py
 ```
-7. <p><small>Check out the <a target="_blank" href="https://s3-us-west-2.amazonaws.com/gdelt-streaming/gkg.html">report</a></small></p>
+_7. <p><small>Go <a target="_blank" href="https://s3-us-west-2.amazonaws.com/gdelt-streaming/gkg.html">Check out the report</a></small></p>
 
 Project Organization
 ------------
