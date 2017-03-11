@@ -49,7 +49,7 @@ How does my system fall short and how could it be improved?
 
 ### Low latency reads and updates
 
-- ** Apache Parquet, EMR, Redshift **
+- **Apache Parquet, EMR, Redshift**
 - **Dev ops techniques to enforce environment variables, ship and sync scripts to virtual machines.**
 
 - My system does not consider how to lower latency reads between my flask app and my distributed data stores. However, I will serialize each CSV as an Apache Parquet file which will make data processing in Spark faster. 
@@ -57,13 +57,13 @@ How does my system fall short and how could it be improved?
 
 ### Scalability
 
-- ** EMR and Redshift are easily scalable.**
+- **EMR and Redshift are easily scalable.**
 
 - Again, I may need to look into Elastic Beanstalk to enable automated scaling for other components of the pipeline such as standalone EC2s.
 
 ### Genaralization
 
-- ** All file states (raw, interim, processed) stored in S3 **
+- **All file states (raw, interim, processed) stored in S3**
 - I hope to use Airflow to coordinate my Spark DAGs. This would make it easier to do future projects that entail prediction and machine learning. It would be nice to enable queries in the web app that trigger a Spark job that returns an answer. Elastic Search may be worth investigating.
 
 ### Extensibility
@@ -73,7 +73,7 @@ How does my system fall short and how could it be improved?
 
 ### Ad Hoc Queries
 
-- ** Need to login to Spark EMR to do ad-hoc processing. Some tables in Redshift for ad-hoc querying.**
+- **Need to login to Spark EMR to do ad-hoc processing. Some tables in Redshift for ad-hoc querying.**
 - Elastic Search combined with Spark would be a great way to perform efficient ad hoc queries.
 
 ### Minimal Maintenance
@@ -107,7 +107,6 @@ _3. Setup Data Lake on AWS S3.
 _4. Extract, Transform, Load:
 ```bash
     $ python PROJ_ROOT/src/get_gdelt.py
-    $ python src/get_gdelt.py
 ```
 
 _5. Spinup and setup EMR cluster on AWS.
